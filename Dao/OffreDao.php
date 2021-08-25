@@ -72,7 +72,7 @@ class OffreDao extends BaseDao
 
             $utilisateur = new Utilisateur();
             $utilisateur->setId($ligneOffre['id_utilisateur']);
-            $utilisateur->setPseudo($ligneOffre['pseudo']);
+            $utilisateur->setEmail($ligneOffre['pseudo']);
             $offre->setUtilisateur($utilisateur);
 
             $domaine = new Domaine();
@@ -110,7 +110,7 @@ class OffreDao extends BaseDao
 
             $utilisateur = new Utilisateur();
             $utilisateur->setId($ligneOffre['id_utilisateur']);
-            $utilisateur->setPseudo($ligneOffre['pseudo']);
+            $utilisateur->setEmail($ligneOffre['email']);
             $offre->setUtilisateur($utilisateur);
 
             $domaine = new Domaine();

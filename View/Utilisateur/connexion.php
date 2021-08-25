@@ -1,8 +1,8 @@
 <form method="POST">
 
     <div class="form-group">
-        <label for="inputDefault">Pseudo</label>
-        <input style="max-width:300px" value="<?= $pseudo ?>" name="pseudo" type="text" class="form-control" placeholder="Pseudo">
+        <label for="inputDefault">Email</label>
+        <input style="max-width:300px" value="<?= $email ?>" name="email" type="email" class="form-control" placeholder="email">
     </div>
 
     <div class="form-group">

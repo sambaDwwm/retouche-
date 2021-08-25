@@ -13,18 +13,18 @@ class UtilisateurController extends BaseController
     public function profil()
     {
         $erreurAvatar = "";
-        $erreurPseudo = "";
+        $erreurEmail = "";
 
         $utilisateur = unserialize($_SESSION["utilisateur"]);
         $idUtilisateurConnecte = $utilisateur->getId();
 
         //si l'utilisateur valide le formulaire 
-        if (isset($_POST["pseudo"])) {
+        if (isset($_POST["email"])) {
 
             $utilisateurDao = new UtilisateurDao();
 
-            if (strlen($_POST["pseudo"]) < 3) {
-                $erreurPseudo = "Votre pseudo doit contenir au moins 3 caractères";
+            if (strlen($_POST["email"]) < 3) {
+                $erreurEmail = "Votre email doit contenir au moins 3 caractères";
             }
 
             if ($_POST["competence"] != "") {
@@ -57,7 +57,7 @@ class UtilisateurController extends BaseController
                     $nomTemporaireAvatar = $_FILES['avatar']['tmp_name'];
 
                     //on change le nom de l'avatar pour un nom unique 
-                    $nomAvatar = $_POST["pseudo"] . "_" . $nomOrigine;
+                    $nomAvatar = $_POST["email"] . "_" . $nomOrigine;
 
                     //on deplace l'image temporaire vers notre dossier d'upload
                     move_uploaded_file(
@@ -70,19 +70,19 @@ class UtilisateurController extends BaseController
             }
 
             //si il n'y a aucune erreur
-            if ($erreurPseudo == "" && $erreurAvatar == "") {
+            if ($erreurEmail == "" && $erreurAvatar == "") {
 
                 //on va enregistrer le nom de l'image renommée dans la bdd
                 $utilisateurDao->modifierUtilisateur(
                     $idUtilisateurConnecte,
-                    $_POST["pseudo"],
+                    $_POST["email"],
                     $nomAvatar
                 );
 
                 //on met l'utilisateur à jour dans la session
                 $nouvelUtilisateur = new Utilisateur();
                 $nouvelUtilisateur->setId($idUtilisateurConnecte);
-                $nouvelUtilisateur->setPseudo($_POST["pseudo"]);
+                $nouvelUtilisateur->setEmail($_POST["email"]);
 
                 //on met à jour l'avatar dans la session uniquement si il a été changé, 
                 // sinon on garde celui sauvegarder à l'origine dans la session
@@ -133,7 +133,7 @@ class UtilisateurController extends BaseController
             "listeCompetenceUtilisateur",
             "utilisateur",
             "erreurAvatar",
-            "erreurPseudo"
+            "erreurEmail"
         );
 
         $this->afficherVue("profil", $donnees);
@@ -141,26 +141,26 @@ class UtilisateurController extends BaseController
 
     public function connexion()
     {
-        $pseudo = "";
+        $email = "";
 
         //si l'utilisateur a validé le formulaire
-        if (isset($_POST['pseudo'])) {
+        if (isset($_POST['email'])) {
 
-            $pseudo = $_POST['pseudo'];
+            $email = $_POST['email'];
             $dao = new UtilisateurDao();
-            $utilisateur = $dao->findByPseudo($_POST['pseudo']);
+            $utilisateur = $dao->findByEmail($_POST['email']);
 
-            //si le pseudo existe et que le mot de passe correspond
+            //si le email existe et que le mot de passe correspond
             if ($utilisateur && password_verify($_POST['motDePasse'], $utilisateur->getMotDePasse())) {
                 $_SESSION["utilisateur"] = serialize($utilisateur);
                 $this->afficherMessage("Vous êtes connecté");
                 $this->redirection();
             } else {
-                $this->afficherMessage("mauvais pseudo / mot de passe", "danger");
+                $this->afficherMessage("mauvais email / mot de passe", "danger");
             }
         }
 
-        $donnees = compact("pseudo");
+        $donnees = compact("email");
         $this->afficherVue("connexion", $donnees);
     }
 
@@ -174,32 +174,32 @@ class UtilisateurController extends BaseController
 
     public function inscription()
     {
-        $pseudo = "";
-        $entreprise = false;
+        $email = "";
+        $admin = false;
 
         //si l'utilisateur a valider le formulaire
-        if (isset($_POST["pseudo"])) {
+        if (isset($_POST["email"])) {
 
-            $pseudo = $_POST["pseudo"];
-            $entreprise = isset($_POST['entreprise']);
+            $email = $_POST["email"];
+            $admin = isset($_POST['admin']);
 
             if ($_POST["motDePasse"] == $_POST["confirmeMotDePasse"]) {
 
                 $dao = new UtilisateurDao();
 
-                //si l'utilisateur a coché la case "entreprise"
-                /*if (isset($_POST['entreprise'])) {
-                    $entreprise = 1;
+                //si l'utilisateur a coché la case "admin"
+                /*if (isset($_POST['admin'])) {
+                    $admin = 1;
                 } else {
-                    $entreprise = 0;
+                    $admin = 0;
                 }*/
 
-                //$entreprise = isset($_POST['entreprise']) ? 1 : 0;
+                //$admin = isset($_POST['admin']) ? 1 : 0;
 
                 $dao->ajoutUtilisateur(
-                    $_POST['pseudo'],
+                    $_POST['email'],
                     $_POST['motDePasse'],
-                    isset($_POST['entreprise']) ? 1 : 0
+                    isset($_POST['admin']) ? 1 : 0
                 );
 
                 $this->afficherMessage("Vous êtes bien inscrit, veuillez vous connecter", "success");
@@ -210,7 +210,7 @@ class UtilisateurController extends BaseController
             }
         }
 
-        $donnees = compact('pseudo', 'entreprise');
+        $donnees = compact('email', 'admin');
 
         $this->afficherVue("inscription", $donnees);
     }

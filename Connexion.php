@@ -6,7 +6,7 @@ class Connexion extends PDO
     {
 
         parent::__construct(
-            "mysql:dbname=cci_dwwm_2021_118_annonce;host=localhost:3307;charset=UTF8",
+            "mysql:dbname=retouche;host=localhost;charset=UTF8",
             "root",
             ""
         );

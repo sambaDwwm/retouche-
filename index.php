@@ -47,7 +47,7 @@ Autoloader::register();
                             if (isset($_SESSION["utilisateur"])) {
                                 $utilisateur = unserialize($_SESSION["utilisateur"]);
 
-                                if ($utilisateur->getEntreprise()) {
+                                if ($utilisateur->getEmail()) {
 
                             ?>
                                     <a class="nav-link active" href="<?= Config::$baseUrl ?>/offre/ajouter">

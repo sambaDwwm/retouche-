@@ -7,37 +7,40 @@ use Connexion;
 class UtilisateurDao extends BaseDao
 {
 
-    public function ajoutUtilisateur($pseudo, $motDePasse, $entreprise)
+    public function ajoutUtilisateur($nom,$prenom,$email,$phone, $motDePasse, $admin)
     {
         $connexion = new Connexion();
 
         $requete = $connexion->prepare(
-            "INSERT INTO utilisateur (pseudo, mot_de_passe, entreprise)
-             VALUES (?,?,?)"
+            "INSERT INTO utilisateur (nom, prenom, email, phone,  mot_de_passe, admin)
+             VALUES (?,?,?,?,?,?)"
         );
 
         $requete->execute(
             [
-                $pseudo,
+                $nom,
+                $prenom,
+                $email,
+                $phone,
                 password_hash($motDePasse, PASSWORD_BCRYPT),
-                $entreprise
+                $admin
             ]
         );
     }
 
-    public function findByPseudo($pseudo)
+    public function findByEmail($email)
     {
         $connexion = new Connexion();
 
         $requete = $connexion->prepare(
-            "SELECT * FROM utilisateur WHERE pseudo = ?"
+            "SELECT * FROM utilisateur WHERE email = ?"
         );
 
-        $requete->execute([$pseudo]);
+        $requete->execute([$email]);
 
         $tableauUtilisateur = $requete->fetch();
 
-        //si un utilisateur a bien ce pseudo
+        //si un utilisateur a bien ce email
         if ($tableauUtilisateur) {
             return $this->transformeTableauEnObjet($tableauUtilisateur);
         } else {
@@ -63,27 +66,27 @@ class UtilisateurDao extends BaseDao
         );
     }
 
-    public function modifierUtilisateur($id, $pseudo, $nomAvatar)
+    public function modifierUtilisateur($id, $email, $nomAvatar)
     {
         $connexion = new Connexion();
 
         if ($nomAvatar != "") {
             $requete = $connexion->prepare(
                 "UPDATE utilisateur 
-                SET pseudo = ?, nom_avatar = ?
+                SET email = ?, nom_avatar = ?
                 WHERE id = ?"
             );
             $requete->execute(
-                [$pseudo, $nomAvatar, $id]
+                [$email, $nomAvatar, $id]
             );
         } else {
             $requete = $connexion->prepare(
                 "UPDATE utilisateur 
-                SET pseudo = ?
+                SET email = ?
                 WHERE id = ?"
             );
             $requete->execute(
-                [$pseudo, $id]
+                [$email, $id]
             );
         }
     }
