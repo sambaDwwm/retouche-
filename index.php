@@ -36,29 +36,9 @@ Autoloader::register();
 
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="<?= Config::$baseUrl ?>/offre/afficherTout">
-                                Voir les offres
-                            </a>
-                        </li>
-                        <li class="nav-item">
-
-                            <?php
-                            if (isset($_SESSION["utilisateur"])) {
-                                $utilisateur = unserialize($_SESSION["utilisateur"]);
-
-                                if ($utilisateur->getEmail()) {
-
-                            ?>
-                                    <a class="nav-link active" href="<?= Config::$baseUrl ?>/offre/ajouter">
-                                        Ajouter une offre
-                                    </a>
-                            <?php
-
-                                }
-                            }
-                            ?>
-                        </li>
+                        
+                    
+                       
                         <?php
                         if (isset($_SESSION["utilisateur"])) {
                         ?>
@@ -84,18 +64,13 @@ Autoloader::register();
                             <li class="nav-item">
                                 <a class="nav-link" href="<?= Config::$baseUrl ?>/utilisateur/connexion">Connexion</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?= Config::$baseUrl ?>/utilisateur/inscription">Inscription</a>
-                            </li>
+                            
 
                         <?php
                         }
                         ?>
 
-                        <form method="POST" class="d-flex" action="/cci_dwwm_2021_118_annonce/offre/afficherTout">
-                            <input value="<?= isset($_POST['recherche']) ? $_POST['recherche'] : "" ?>" name="recherche" class="form-control me-sm-2" type="text" placeholder="Que désirez-vous ?">
-                            <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Recherche"></input>
-                        </form>
+                        
                 </div>
             </div>
         </nav>

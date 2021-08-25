@@ -12,4 +12,7 @@
 
     <input style="margin-top:20px" type="submit" class="btn btn-success" value="Connexion">
 
+    
+    <a class="nav-link" href="<?= Config::$baseUrl ?>/utilisateur/inscription">Créer un compte</a>
+                            
 </form>

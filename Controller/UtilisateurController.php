@@ -186,18 +186,12 @@ class UtilisateurController extends BaseController
             if ($_POST["motDePasse"] == $_POST["confirmeMotDePasse"]) {
 
                 $dao = new UtilisateurDao();
-
-                //si l'utilisateur a coché la case "admin"
-                /*if (isset($_POST['admin'])) {
-                    $admin = 1;
-                } else {
-                    $admin = 0;
-                }*/
-
-                //$admin = isset($_POST['admin']) ? 1 : 0;
-
+                
                 $dao->ajoutUtilisateur(
+                    $_POST['nom'],
+                    $_POST['prenom'],
                     $_POST['email'],
+                    $_POST['phone'],
                     $_POST['motDePasse'],
                     isset($_POST['admin']) ? 1 : 0
                 );

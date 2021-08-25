@@ -7,7 +7,7 @@ use Connexion;
 class UtilisateurDao extends BaseDao
 {
 
-    public function ajoutUtilisateur($nom,$prenom,$email,$phone, $motDePasse, $admin)
+    public function ajoutUtilisateur($nom, $prenom, $email, $phone, $motDePasse, $admin)
     {
         $connexion = new Connexion();
 
@@ -49,22 +49,7 @@ class UtilisateurDao extends BaseDao
     }
 
 
-    public function supprimerCompetenceUtilisateur($idCompetence, $idUtilisateur)
-    {
-        $connexion = new Connexion();
-
-        $requete = $connexion->prepare(
-            "DELETE FROM competence_utilisateur
-             WHERE id_competence = ? AND id_utilisateur = ?"
-        );
-
-        $requete->execute(
-            [
-                $idCompetence,
-                $idUtilisateur
-            ]
-        );
-    }
+    
 
     public function modifierUtilisateur($id, $email, $nomAvatar)
     {
